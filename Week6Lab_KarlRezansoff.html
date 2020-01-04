@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Week 6 Lab - JavaScript DOM and Arrays</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/lab6/style.css">
+  <!--My google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+  <script>
+    function submitForm() {
+      // these store the value for widget quantity
+      var w1 = parseInt(document.getElementById("widget1qty").value);
+      var w2 = parseInt(document.getElementById("widget2qty").value);
+      var w3 = parseInt(document.getElementById("widget3qty").value);
+      var wSum = w1+w2+w3
+      // these return a boolean for if shipping checkbox is checked
+      var standard = document.getElementById("shippingTypeStandard").checked;
+      var express = document.getElementById("shippingTypeExpress").checked;
+      var overnight = document.getElementById("shippingTypeOvernight").checked;
+
+      // calculating the total
+      var shipping = 0;
+
+      if (standard == true) {
+        shipping = 5;
+      } else if (express == true) {
+        shipping = 10;
+      } else {
+        shipping = 20;
+      }
+
+      var total = (w1 * 5) + (w2 * 15) + (w3 * 25);
+      var subtotal = total + shipping;
+
+      if (document.orderForm.firstName.value == "") {
+        alert("Please fill in the first name field");
+        return false;
+      } else if (document.orderForm.lastName.value == "") {
+        alert("Please fill in the last name field");
+        return false;
+      } else if (document.orderForm.address.value == "") {
+        alert("Please fill in the address field");
+        return false;
+      } else if (document.orderForm.city.value == "") {
+        alert("Please fill in the city field");
+        return false;
+      } else if (document.orderForm.province.value == "") {
+        alert("Please fill in the province field");
+        return false;
+      } else if (document.orderForm.postalCode.value == "") {
+        alert("Please fill in the postal code field");
+        return false;
+      } else if (document.orderForm.postalCode.value.length < 6) {
+        alert("Postal code must be six digits long");
+        return false;
+      } else if (w1 < 0 || isNaN(w1)) {
+        alert("Please enter a number greater than or equal to zero for widget 1!");
+        return false;
+      } else if (w2 < 0 || isNaN(w2)) {
+        alert("Please enter a number greater than or equal to zero for widget 2!");
+        return false;
+      } else if (w3 < 0 || isNaN(w3)) {
+        alert("Please enter a number greater than or equal to zero for widget 3!");
+        return false;
+      } else if (wSum < 2) {
+        alert("A minimum of two items must be ordered");
+        return false;
+      } else if (standard == false && express == false && overnight == false) {
+        alert("Please select a shipping method");
+        return false;
+      } else {
+        alert("Order successful!\nWidgets: $" + total + "\nShipping: $" + shipping + "\n_______________" + "\nSubtotal: $" + subtotal);
+        return true;
+      }
+    }
+  </script>
+</head>
+
+
+<body>
+  <div class="wrapper">
+  <h2>Order Form</h2>
+  <form name="orderForm" method="post" action="processForm.html" onsubmit="return submitForm()">
+    <table>
+      <tr>
+        <th colspan="2">Personal Information</th>
+      </tr>
+      <tr>
+        <td>First Name:</td>
+        <td><input type="text" name="firstName" id="firstName" size="30"></td>
+      </tr>
+      <tr>
+        <td>Last Name:</td>
+        <td><input type="text" name="lastName" id="lastName" size="30"></td>
+      </tr>
+      <tr>
+        <td>Address:</td>
+        <td><input type="text" name="address" id="address" size="30"></td>
+      </tr>
+      <tr>
+        <td>City:</td>
+        <td><input type="text" name="city" id="city" size="30"></td>
+      </tr>
+      <tr>
+        <td>Province:</td>
+        <td><select name="province" id="province" size="1">
+            <option disabled>Select a province</option>
+            <option value="BC">British Columbia</option>
+            <option value="AB">Alberta</option>
+            <option value="SK">Saskatchewan</option>
+            <option value="MB">Manitoba</option>
+            <option value="ON">Ontario</option>
+            <option value="QC">Québec</option>
+            <option value="NB">New Brunswick</option>
+            <option value="NS">Nova Scotia</option>
+            <option value="PE">Prince Edward Island</option>
+            <option value="NF">Newfoundland</option>
+            <option value="YK">Yukon</option>
+            <option value="NWT">Northwest Territories</option>
+            <option value="NU">Nunavut</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Postal Code:</td>
+        <td><input type="text" name="postalCode" id="postalCode" maxlength="6"></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="orderInfo">Order Information</th>
+      </tr>
+      <tr>
+        <td rowspan="3">Select your products:<br>
+          <span id="productError" class="errorMessage" hidden></span></td>
+        <td>Widget #1&nbsp;
+          <input type="text" name="widget1qty" id="widget1qty" size="1" value="0">Qty @ <strong>$5.00/ea</strong></td>
+      </tr>
+      <tr>
+        <td>Widget #2&nbsp;
+          <input type="text" name="widget2qty" id="widget2qty" size="1" value="0">Qty @ <strong>$15.00/ea</strong></td>
+      </tr>
+      <tr>
+        <td>Widget #3&nbsp;
+          <input type="text" name="widget3qty" id="widget3qty" size="1" value="0">Qty @ <strong>$25.00/ea</strong></td>
+      </tr>
+      <tr>
+        <td rowspan="3">Shipping Type:</td>
+        <td>Standard ($5.00)<input type="radio" name="shippingType" id="shippingTypeStandard" value="Standard" checked></td>
+
+      </tr>
+      <tr>
+        <td>Express ($10.00)<input type="radio" name="shippingType" id="shippingTypeExpress" value="Express"></td>
+      </tr>
+      <tr>
+        <td>Overnight ($20.00)<input type="radio" name="shippingType" id="shippingTypeOvernight" value="Overnight"></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="submit">Submit Order</th>
+      </tr>
+      <tr>
+        <td><input type="submit" name="btnSubmit" id="btnSubmit" value="Submit Order" class="button"></td>
+        <td><input type="reset" name="btnReset" id="btnReset" value="Reset Form" class="button"></td>
+      </tr>
+    </table>
+  </form>
+  </div>
+</body>
+
+
+</html>
