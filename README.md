@@ -1,2 +1,2 @@
 # Javascript-Form-Validation
-A sample store order form that gets validated with JavaScript
+Web page of an order form. Form is validated with JavaScript and will inform the user if filled out incorrectly.
